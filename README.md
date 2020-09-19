@@ -70,6 +70,7 @@ must be chosen and applied to other applications. Here are the key points of int
 3. `AppUnderTest/Startup.cs`, which adds an optional loop to wait for Couchbase startup. This loop is only used during local development or CI tests, not in production.
 4. The `tests` folder, which defines the tests to run.
 5. The `docker-compose.test.yml` file, which extends `docker-compose.yml` with the additional test container.
+6. `.github/workflows/main.yml` provides an example CI run using GitHub Actions.
 
 > :info: Additional dependencies required for the application may also be added to docker-compose.yml. This could include
 > message buses, other databases, other microservices, StatsD agents, localstack to emulate AWS, and more.

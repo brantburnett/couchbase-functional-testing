@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1
+      - name: Install dependencies
+        run: dotnet restore AppUnderTest/AppUnderTest.csproj
+      - name: Build
+        run: dotnet build AppUnderTest/AppUnderTest.csproj --configuration Release --no-restore
+      - name: Functional Tests
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.test.yml down -v
+          docker-compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.test.yml build --parallel
+          docker-compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.test.yml up --abort-on-container-exit --exit-code-from tests
