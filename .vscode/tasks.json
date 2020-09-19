@@ -1,0 +1,72 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/AppUnderTest/AppUnderTest.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "publish",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "publish",
+        "${workspaceFolder}/AppUnderTest/AppUnderTest.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "watch",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "watch",
+        "run",
+        "${workspaceFolder}/AppUnderTest/AppUnderTest.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "docker-compose up: debug",
+      "type": "shell",
+      "command": "docker-compose",
+      "args": [
+        "-f",
+        "${workspaceFolder}/docker-compose.yml",
+        "-f",
+        "${workspaceFolder}/docker-compose.debug.yml",
+        "up",
+        "--build"
+      ],
+      "problemMatcher": [
+        "$msCompile"
+      ]
+    },
+    {
+      "label": "docker-compose down: debug",
+      "type": "shell",
+      "command": "docker-compose",
+      "args": [
+        "-f",
+        "${workspaceFolder}/docker-compose.yml",
+        "-f",
+        "${workspaceFolder}/docker-compose.debug.yml",
+        "down",
+        "-v"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

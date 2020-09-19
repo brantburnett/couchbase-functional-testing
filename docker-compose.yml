@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  # Couchbase container build on CouchbaseFakeIt, configured via files in the ./couchbase folder
+  couchbase:
+    image: btburnett3/couchbasefakeit:enterprise-6.6.0
+    volumes:
+      - ./couchbase:/startup # Mount Couchbase configuration
+      - couchbase_data:/opt/couchbase/var # Persist couchbase data until volumes are deleted
+      - couchbase_status:/nodestatus # Share the nodestatus folder, allowing other containers to monitor for completed init
+    ports:
+      - "8091:8091" # Allow access to management console
+
+  # The .NET core application being developed/tested
+  undertest:
+    image: appundertest
+    build:
+      context: .
+      dockerfile: AppUnderTest/Dockerfile
+    environment:
+      - Couchbase__ReadyFile=/nodestatus/initialized # This file will exist once Couchbase is initialized
+      - Couchbase__ConnectionString=couchbase://couchbase # References the name of the Couchbase service above
+      - Couchbase__Username=Administrator
+      - Couchbase__Password=password
+    volumes:
+      - couchbase_status:/nodestatus:ro # Map volume to observe Couchbase initialization
+    ports:
+      - "8080:80"
+    depends_on:
+      - couchbase
+
+volumes:
+  couchbase_data:
+  couchbase_status:

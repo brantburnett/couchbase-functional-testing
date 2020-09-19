@@ -1,0 +1,20 @@
+name: customers
+type: object
+key:
+  build: "`customer-${this.id}`"
+data:
+  min: 6000
+  max: 10000
+properties:
+  id:
+    data:
+      build: document_index + 1
+  type:
+    data:
+      value: customer
+  fname:
+    data:
+      build: faker.name.firstName()
+  lname:
+    data:
+      build: faker.name.lastName()

@@ -1,0 +1,5 @@
+name: Customers
+index_key:
+- lname
+- fname
+condition: type = 'customer'
