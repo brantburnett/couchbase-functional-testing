@@ -5,6 +5,23 @@
    "version": "0.2.0",
    "configurations": [
      {
+       "name": "Debug Tests",
+       "request": "launch",
+       "cwd": "${workspaceFolder}/tests",
+       "runtimeArgs": [
+         "run-script",
+         "test.debug"
+       ],
+       "runtimeExecutable": "npm",
+       "env": {
+         "BASE_URL": "http://localhost:8080/"
+       },
+       "skipFiles": [
+         "<node_internals>/**"
+       ],
+       "type": "pwa-node"
+     },
+     {
        "name": "Docker .NET Core Attach",
        "type": "docker",
        "request": "attach",

@@ -43,8 +43,33 @@ Each time you launch the application using the `up` task, Couchbase is simply re
 This makes startup times much faster. If it's necessary to rebuild (for example, if you change configuration in the `couchbase` directory),
 run the `docker-compose down: debug` task. This will clean up all related volumes so the next launch is clean.
 
-## Running CI Tests Locally
+## Functional Tests
+
+Functional tests, which may be run as part of a CI pipeline, confirm that the application starts and the API behaves as expected in
+an isolated test environment.
+
+### Running CI Tests Locally
 
 To run the CI tests locally in VSCode, under `Terminal | Run Task...` run the `docker-compose up: test` task.
 
 Alternatively, the tests can be run from the command line. See detailed documentation in the [tests directory](./tests/README.md).
+
+### Debugging Tests
+
+To debug the tests, first be sure that you've launched the application using the `docker-compose up: debug` task.
+Then launch the "Debug Tests" launch configuration. This runs the test with debugging enabled without containerization,
+allowing breakpoints to be set within the tests.
+
+## Key Points of Interest
+
+It probably isn't possible to simply use this repository as a template for an application, instead parts of this repository
+must be chosen and applied to other applications. Here are the key points of interest to examine when chosing the pieces.
+
+1. The `couchbase` directory, which defines how Couchbase is configured on startup for both local development and CI tests.
+2. The `docker-compose.yml` file, which defines how Couchbase and the application are started for both local development and CI tests.
+3. `AppUnderTest/Startup.cs`, which adds an optional loop to wait for Couchbase startup. This loop is only used during local development or CI tests, not in production.
+4. The `tests` folder, which defines the tests to run.
+5. The `docker-compose.test.yml` file, which extends `docker-compose.yml` with the additional test container.
+
+> :info: Additional dependencies required for the application may also be added to docker-compose.yml. This could include
+> message buses, other databases, other microservices, StatsD agents, localstack to emulate AWS, and more.
