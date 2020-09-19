@@ -1,0 +1,17 @@
+# This file is used to enrich docker-compose.yml with an additional test container.
+# docker-compose may then be run with "--exit-code-from tests", which will cause it to
+# exit when the tests are complete and return the test run's exit code.
+
+version: '3.4'
+
+services:
+  tests:
+    image: couchbase-functional-testing-tests
+    build:
+      context: .
+      dockerfile: tests/Dockerfile
+    environment:
+      - BASE_URL=http://undertest/ # Base URL of the application, references the app container
+      - READY_URL=http://undertest/ready # URL to monitor for application start
+    depends_on:
+      - undertest

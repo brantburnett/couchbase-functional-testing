@@ -39,6 +39,40 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": "docker-compose build: debug",
+      "type": "shell",
+      "command": "docker-compose",
+      "args": [
+        "-f",
+        "${workspaceFolder}/docker-compose.yml",
+        "-f",
+        "${workspaceFolder}/docker-compose.debug.yml",
+        "build",
+        "--parallel"
+      ],
+      "problemMatcher": [
+        "$msCompile"
+      ]
+    },
+    {
+      "label": "docker-compose build: test",
+      "type": "shell",
+      "command": "docker-compose",
+      "args": [
+        "-f",
+        "${workspaceFolder}/docker-compose.yml",
+        "-f",
+        "${workspaceFolder}/docker-compose.debug.yml",
+        "-f",
+        "${workspaceFolder}/docker-compose.test.yml",
+        "build",
+        "--parallel"
+      ],
+      "problemMatcher": [
+        "$msCompile"
+      ]
+    },
+    {
       "label": "docker-compose up: debug",
       "type": "shell",
       "command": "docker-compose",
@@ -47,12 +81,35 @@
         "${workspaceFolder}/docker-compose.yml",
         "-f",
         "${workspaceFolder}/docker-compose.debug.yml",
-        "up",
-        "--build"
+        "up"
       ],
-      "problemMatcher": [
-        "$msCompile"
-      ]
+      "dependsOn": [
+        "docker-compose build: debug"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "docker-compose up: test",
+      "type": "shell",
+      "command": "docker-compose",
+      "args": [
+        "-f",
+        "${workspaceFolder}/docker-compose.yml",
+        "-f",
+        "${workspaceFolder}/docker-compose.debug.yml",
+        "-f",
+        "${workspaceFolder}/docker-compose.test.yml",
+        "up",
+        "--abort-on-container-exit",
+        "--exit-code-from",
+        "tests"
+      ],
+      "dependsOn": [
+        "docker-compose down: test",
+        "docker-compose build: test"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
     },
     {
       "label": "docker-compose down: debug",
@@ -63,6 +120,22 @@
         "${workspaceFolder}/docker-compose.yml",
         "-f",
         "${workspaceFolder}/docker-compose.debug.yml",
+        "down",
+        "-v"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "docker-compose down: test",
+      "type": "shell",
+      "command": "docker-compose",
+      "args": [
+        "-f",
+        "${workspaceFolder}/docker-compose.yml",
+        "-f",
+        "${workspaceFolder}/docker-compose.debug.yml",
+        "-f",
+        "${workspaceFolder}/docker-compose.test.yml",
         "down",
         "-v"
       ],

@@ -42,3 +42,9 @@ possible to set breakpoints in the application found in the `AppUnderTest` folde
 Each time you launch the application using the `up` task, Couchbase is simply restarted with it's previous configuration and data.
 This makes startup times much faster. If it's necessary to rebuild (for example, if you change configuration in the `couchbase` directory),
 run the `docker-compose down: debug` task. This will clean up all related volumes so the next launch is clean.
+
+## Running CI Tests Locally
+
+To run the CI tests locally in VSCode, under `Terminal | Run Task...` run the `docker-compose up: test` task.
+
+Alternatively, the tests can be run from the command line. See detailed documentation in the [tests directory](./tests/README.md).
