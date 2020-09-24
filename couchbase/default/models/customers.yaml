@@ -1,7 +1,8 @@
 name: customers
 type: object
 key:
-  build: "`customer-${this.id}`"
+  data:
+    build: "`customer-${this.id}`"
 data:
   min: 6000
   max: 10000
